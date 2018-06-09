@@ -30,19 +30,19 @@ RSpec.describe CertsyRobot do
 
     context 'when receive invalid PLACE command' do
       context 'when direction is invalid' do
-        When { robot.command('PLACE 1,3,INVALID') }
+        When { robot.command('PLACE 1,3') }
         Then { robot.state == :pending }
-        And { robot.x == nil }
-        And { robot.y == nil }
-        And { robot.direction == nil }
+        And { robot.x.nil? }
+        And { robot.y.nil? }
+        And { robot.direction.nil? }
       end
 
       context 'when position is invalid' do
         When { robot.command('PLACE 1,9,NORTH') }
         Then { robot.state == :pending }
-        And { robot.x == nil }
-        And { robot.y == nil }
-        And { robot.direction == nil }
+        And { robot.x.nil? }
+        And { robot.y.nil? }
+        And { robot.direction.nil? }
       end
     end
 
@@ -85,7 +85,6 @@ RSpec.describe CertsyRobot do
         When { robot.command('RIGHT') }
         Then { robot.state == :pending }
       end
-
       context 'when robot is placed facing SOUTH' do
         When { robot.command('PLACE 1,2,SOUTH') }
         When { robot.command('RIGHT') }
@@ -105,6 +104,50 @@ RSpec.describe CertsyRobot do
         When { robot.command('PLACE 1,2,WEST') }
         When { robot.command('RIGHT') }
         Then { robot.direction == 'NORTH' }
+      end
+    end
+    context 'when receive MOVE' do
+      context 'when facing NORTH' do
+        context 'when able to move' do
+          When { robot.command('PLACE 1,2,NORTH') }
+          Then { expect { robot.command('MOVE') }.to change { robot.y }.by(1) }
+        end
+        context 'when robot is going to fail' do
+          When { robot.command('PLACE 1,5,NORTH') }
+          Then { expect { robot.command('MOVE') }.not_to change { robot.y } }
+        end
+      end
+
+      context 'when facing EAST' do
+        context 'when able to move' do
+          When { robot.command('PLACE 1,2,EAST') }
+          Then { expect { robot.command('MOVE') }.to change { robot.x }.by(1) }
+        end
+        context 'when robot is going to fail' do
+          When { robot.command('PLACE 5,1,EAST') }
+          Then { expect { robot.command('MOVE') }.not_to change { robot.x } }
+        end
+      end
+
+      context 'when facing SOUTH' do
+        context 'when able to move' do
+          When { robot.command('PLACE 1,2,SOUTH') }
+          Then { expect { robot.command('MOVE') }.to change { robot.y }.by(-1) }
+        end
+        context 'when robot is going to fail' do
+          When { robot.command('PLACE 1,0,SOUTH') }
+          Then { expect { robot.command('MOVE') }.not_to change { robot.y } }
+        end
+      end
+      context 'when facing WEST' do
+        context 'when able to move' do
+          When { robot.command('PLACE 1,2,WEST') }
+          Then { expect { robot.command('MOVE') }.to change { robot.x }.by(-1) }
+        end
+        context 'when robot is going to fail' do
+          When { robot.command('PLACE 0,2,WEST') }
+          Then { expect { robot.command('MOVE') }.not_to change { robot.x } }
+        end
       end
     end
   end

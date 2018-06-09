@@ -2,8 +2,8 @@
 
 class CertsyRobot
   attr_reader :state, :x, :y, :direction
-  VALID_DIRECTIONS = %w[NORTH EAST SOUTH WEST]
-  VALID_ACTIONS = %w[PLACE MOVE LEFT RIGHT REPORT]
+  VALID_DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
+  VALID_ACTIONS = %w[PLACE MOVE LEFT RIGHT REPORT].freeze
   COMMAND_PATTERN = /(#{VALID_ACTIONS.join('|')})\s*(.+)?/
 
   def initialize
@@ -26,6 +26,9 @@ class CertsyRobot
     when 'RIGHT'
       return if pending?
       right
+    when 'MOVE'
+      return if pending?
+      move
     end
   end
 
@@ -34,6 +37,19 @@ class CertsyRobot
   end
 
   private
+
+  def move
+    case direction
+    when 'NORTH'
+      @y += 1 if valid_position?(x, y + 1)
+    when 'SOUTH'
+      @y -= 1 if valid_position?(x, y - 1)
+    when 'EAST'
+      @x += 1 if valid_position?(x + 1, y)
+    when 'WEST'
+      @x -= 1 if valid_position?(x - 1, y)
+    end
+  end
 
   def left
     index = VALID_DIRECTIONS.index(direction) - 1
@@ -49,19 +65,19 @@ class CertsyRobot
     state == :pending
   end
 
-  def valid_position?(x, y)
-    (0..5).include?(x.to_i) && (0..5).include?(y.to_i)
+  def valid_position?(pos_x, pos_y)
+    (0..5).cover?(pos_x.to_i) && (0..5).cover?(pos_y.to_i)
   end
 
   def valid_direction?(direction)
     VALID_DIRECTIONS.include?(direction)
   end
 
-  def place(x, y, direction)
-    return unless valid_position?(x, y) && valid_direction?(direction)
+  def place(pos_x, pos_y, direction)
+    return unless valid_position?(pos_x, pos_y) && valid_direction?(direction)
     @direction = direction
-    @x = x.to_i
-    @y = y.to_i
+    @x = pos_x.to_i
+    @y = pos_y.to_i
     @state = :placed
   end
 

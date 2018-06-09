@@ -9,6 +9,10 @@ AllCops:
 Rails:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
+
 Style/AndOr:
   Enabled: false
 
