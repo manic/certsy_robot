@@ -27,6 +27,12 @@ REPORT
 * A robot that is not on the table can choose to ignore the MOVE, LEFT, RIGHT and REPORT commands.
 * Provide test data to exercise the application.
 
+## How to use:
+
+```
+$ ./bin/certsy_robot {file_name}
+```
+
 ## Constraints:
 
 The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot.
