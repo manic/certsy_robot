@@ -1,0 +1,2 @@
+class CertsyRobot
+end

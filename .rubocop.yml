@@ -1,0 +1,78 @@
+inherit_from:
+  - ./.rubocop.relaxed.yml
+
+AllCops:
+  TargetRubyVersion: 2.5.1
+  Exclude:
+    - bin/**/*
+
+Rails:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+Rails/Validation:
+  Enabled: false
+
+SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Metrics/ModuleLength:
+  CountComments: false  # count full line comments?
+  Max: 100
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 150
+  Exclude:
+    - spec/**/*
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 30
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 50
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
