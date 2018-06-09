@@ -2,7 +2,7 @@
 
 class CertsyRobot
   attr_reader :state, :x, :y, :direction
-  VALID_DIRECTIONS = %w[NORTH SOUTH EAST WEST]
+  VALID_DIRECTIONS = %w[NORTH EAST SOUTH WEST]
   VALID_ACTIONS = %w[PLACE MOVE LEFT RIGHT REPORT]
   COMMAND_PATTERN = /(#{VALID_ACTIONS.join('|')})\s*(.+)?/
 
@@ -20,6 +20,12 @@ class CertsyRobot
     when 'REPORT'
       return if pending?
       puts report
+    when 'LEFT'
+      return if pending?
+      left
+    when 'RIGHT'
+      return if pending?
+      right
     end
   end
 
@@ -28,6 +34,16 @@ class CertsyRobot
   end
 
   private
+
+  def left
+    index = VALID_DIRECTIONS.index(direction) - 1
+    @direction = VALID_DIRECTIONS[index]
+  end
+
+  def right
+    index = VALID_DIRECTIONS.index(direction) + 1
+    @direction = VALID_DIRECTIONS[index % 4]
+  end
 
   def pending?
     state == :pending

@@ -52,5 +52,60 @@ RSpec.describe CertsyRobot do
         expect { robot.command('REPORT') }.to output("1,2,SOUTH\n").to_stdout
       end
     end
+
+    context 'when receive LEFT' do
+      context 'ignore when robot is not placed' do
+        When { robot.command('LEFT') }
+        Then { robot.state == :pending }
+      end
+
+      context 'when robot is placed facing SOUTH' do
+        When { robot.command('PLACE 1,2,SOUTH') }
+        When { robot.command('LEFT') }
+        Then { robot.direction == 'EAST' }
+      end
+      context 'when robot is placed facing EAST' do
+        When { robot.command('PLACE 1,2,EAST') }
+        When { robot.command('LEFT') }
+        Then { robot.direction == 'NORTH' }
+      end
+      context 'when robot is placed facing NORTH' do
+        When { robot.command('PLACE 1,2,NORTH') }
+        When { robot.command('LEFT') }
+        Then { robot.direction == 'WEST' }
+      end
+      context 'when robot is placed facing WEST' do
+        When { robot.command('PLACE 1,2,WEST') }
+        When { robot.command('LEFT') }
+        Then { robot.direction == 'SOUTH' }
+      end
+    end
+    context 'when receive RIGHT' do
+      context 'ignore when robot is not placed' do
+        When { robot.command('RIGHT') }
+        Then { robot.state == :pending }
+      end
+
+      context 'when robot is placed facing SOUTH' do
+        When { robot.command('PLACE 1,2,SOUTH') }
+        When { robot.command('RIGHT') }
+        Then { robot.direction == 'WEST' }
+      end
+      context 'when robot is placed facing EAST' do
+        When { robot.command('PLACE 1,2,EAST') }
+        When { robot.command('RIGHT') }
+        Then { robot.direction == 'SOUTH' }
+      end
+      context 'when robot is placed facing NORTH' do
+        When { robot.command('PLACE 1,2,NORTH') }
+        When { robot.command('RIGHT') }
+        Then { robot.direction == 'EAST' }
+      end
+      context 'when robot is placed facing WEST' do
+        When { robot.command('PLACE 1,2,WEST') }
+        When { robot.command('RIGHT') }
+        Then { robot.direction == 'NORTH' }
+      end
+    end
   end
 end
