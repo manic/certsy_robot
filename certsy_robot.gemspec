@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
   s.description = "Description of certsy_robot."
   s.license     = "MIT"
 
-  s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
-  s.test_files = Dir["spec/**/*"]
+  s.files = `git ls-files`.split($\)
+  s.executables = %w[certsy_robot]
+  s.test_files = s.files.grep(%r{^(test|spec|features)/})
+  s.require_paths = ['lib']
 end

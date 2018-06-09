@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'certsy_robot'
+
+#require 'irb'
+#IRB.start(__FILE__)
+
+raise 'File is not exist' unless File.exists?(ARGV[0])
+robot = CertsyRobot.new
+IO.foreach(ARGV[0]) { |line| robot.command(line) }
