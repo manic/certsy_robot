@@ -82,6 +82,4 @@ class CertsyRobot
     @y = pos_y.to_i
     @state = :placed
   end
-
-  def ignore; nil end
 end
