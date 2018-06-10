@@ -34,11 +34,11 @@ class CertsyRobot
     end
   end
 
+  private
+
   def report
     "#{x},#{y},#{direction}"
   end
-
-  private
 
   def move
     case direction

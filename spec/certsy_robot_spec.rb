@@ -47,9 +47,15 @@ RSpec.describe CertsyRobot do
     end
 
     context 'when receive REPORT' do
-      When { robot.command('PLACE 1,2,SOUTH') }
-      Then do
-        expect { robot.command('REPORT') }.to output("1,2,SOUTH\n").to_stdout
+      context 'when after placed' do
+        When { robot.command('PLACE 1,2,SOUTH') }
+        Then do
+          expect { robot.command('REPORT') }.to output("1,2,SOUTH\n").to_stdout
+        end
+      end
+      it 'otherwise: ignore' do
+        expect(robot).not_to receive(:report)
+        robot.command('REPORT')
       end
     end
 
