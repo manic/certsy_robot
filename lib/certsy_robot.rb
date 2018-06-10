@@ -2,6 +2,8 @@
 
 class CertsyRobot
   attr_reader :state, :x, :y, :direction
+  VALID_POS_X = 0..5
+  VALID_POS_Y = 0..5
   VALID_DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
   VALID_ACTIONS = %w[PLACE MOVE LEFT RIGHT REPORT].freeze
   COMMAND_PATTERN = /(#{VALID_ACTIONS.join('|')})\s*(.+)?/
@@ -66,7 +68,7 @@ class CertsyRobot
   end
 
   def valid_position?(pos_x, pos_y)
-    (0..5).cover?(pos_x.to_i) && (0..5).cover?(pos_y.to_i)
+    VALID_POS_X.cover?(pos_x.to_i) && VALID_POS_Y.cover?(pos_y.to_i)
   end
 
   def valid_direction?(direction)
